@@ -5,9 +5,10 @@ interface SideBarcardProps {
   icon: React.ReactNode;
   text: string;
   index: number;
+  collapse?: boolean;
 }
 
-const SideBarcard = ({ icon, text, index }: SideBarcardProps) => {
+const SideBarcard = ({ icon, text, index,collapse }: SideBarcardProps) => {
   return (
     <div
     key={index}
@@ -17,7 +18,8 @@ const SideBarcard = ({ icon, text, index }: SideBarcardProps) => {
       )}
     >
       <div className="w-fit">{icon}</div>
-      <div className="w-full">
+     {!collapse && (
+         <div className="w-full">
         <h2
           className={cn(
             ` font-medium text-md`,
@@ -27,6 +29,7 @@ const SideBarcard = ({ icon, text, index }: SideBarcardProps) => {
           {text}
         </h2>
       </div>
+     )}
     </div>
   );
 };

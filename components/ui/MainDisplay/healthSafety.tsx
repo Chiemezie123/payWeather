@@ -3,7 +3,9 @@ import ActivityCard from "@/components/card/activityCard";
 import Graphcard from "@/components/card/graphcard";
 import { healthCardData, LAT, LON } from "@/constants/option";
 import {
+  calculateDressingIndex,
   calculateOutdoorScore,
+  processHeatStrokeRisk,
   vehicleMovementScore,
 } from "@/features/weather/weatherUtils";
 import { useWeather } from "@/hooks/useWeather";
@@ -29,41 +31,11 @@ const HealthSafety = () => {
   });
 
   type ChartDataItem =
-    | {
-        time: string;
-        score: number;
-        precipitation?: undefined;
-        temperature?: undefined;
-        uvi?: undefined;
-      }
-    | {
-        time: string;
-        precipitation: number;
-        score?: undefined;
-        temperature?: undefined;
-        uvi?: undefined;
-      }
-    | {
-        time: string;
-        temperature: number;
-        precipitation: number;
-        score?: undefined;
-        uvi?: undefined;
-      }
-    | {
-        time: string;
-        score: number;
-        precipitation?: undefined;
-        temperature?: undefined;
-        uvi?: undefined;
-      }
-    | {
-        time: string;
-        uvi: number;
-        score?: undefined;
-        precipitation?: undefined;
-        temperature?: undefined;
-      }
+    | { time: string; score: number }
+    | { time: string; precipitation: number }
+    | { time: string; temperature: number; precipitation: number }
+    | { time: string; uvi: number }
+    | { time: string; feels_like: number }
     | { time: string };
 
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
@@ -106,7 +78,8 @@ const HealthSafety = () => {
       | "heatstroke"
   ) {
     return hourlyData
-      .filter((_, i) => i % 3 === 0)
+      .slice(0, 24)
+      .filter((_, i) => i % 2 === 0)
       .map((hour) => {
         const time = new Date(hour.dt * 1000).toLocaleTimeString([], {
           hour: "2-digit",
@@ -121,8 +94,7 @@ const HealthSafety = () => {
           case "clothing":
             return {
               time,
-              temperature: hour.temp ?? 0,
-              precipitation: (hour.pop ?? 0) * 100,
+              score: calculateDressingIndex(hour) ?? 0,
             };
           case "vehicle":
             return {
@@ -133,6 +105,11 @@ const HealthSafety = () => {
             return {
               time,
               uvi: hour.uvi ?? 0,
+            };
+          case "heatstroke":
+            return {
+              time,
+              feels_like: processHeatStrokeRisk(hour.feels_like ?? 0),
             };
           default:
             return { time };
@@ -148,6 +125,7 @@ const HealthSafety = () => {
             weather.hourly.map((hour: HourlyWeatherData) => ({
               dt: hour.dt,
               temp: hour.temp,
+              feels_like: hour.feels_like,
               humidity: hour.humidity,
               pop: hour.pop ?? 0,
               clouds: hour.clouds,
@@ -189,6 +167,10 @@ const HealthSafety = () => {
       fetchRecommendation();
     }
   }, [weather, weatherType]);
+
+  console.log("Chart Data:", chartData);
+
+  console.log("hourly data:", weather?.hourly[0]);
 
   return (
     <div className="w-full flex  flex-col lg:flex-row gap-4 items-start">

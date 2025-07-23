@@ -46,7 +46,14 @@ const MainDisplayCard = ({
           </div>
         </div>
         <div>
-          <p className="text-grey-600 font-bold text-md">{shortDetail}</p>
+          {shortDetail ? (
+            <p className="text-grey-600 font-bold text-md">{shortDetail}</p>
+          ) : (
+            <p className="text-grey-600 font-bold text-md">
+              {" "}
+              loading summary ...
+            </p>
+          )}
         </div>
       </div>
       <div className="w-full">

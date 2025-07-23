@@ -50,7 +50,7 @@ export const healthCardData: ActivityCardProps[] = [
   },
   {
     imgSrc: heat,
-    text: "Heat Stroke",
+    text: "heatstroke",
     onClick: () => {},
     check: "",
   },

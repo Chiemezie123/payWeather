@@ -20,7 +20,9 @@ const FutureCard = ({ date, image, temperature }: FutureCardProps) => {
           />
         )}
       </div>
-      <p className="text-grey-600 font-bold">{temperature}</p>
+      <p className="text-grey-600 font-bold">
+        {temperature}<span>C</span>
+      </p>
     </div>
   );
 };

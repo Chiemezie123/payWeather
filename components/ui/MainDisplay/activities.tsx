@@ -12,6 +12,7 @@ import Stargazing from "@/assets/images/Shooting_Star.png";
 export interface HourlyWeatherData {
   dt: number;
   temp: number;
+  feels_like?: number;
   weather: Array<{
     description: string;
     icon: string;
@@ -24,10 +25,12 @@ export interface HourlyWeatherData {
   visibility: number;
   pop?: number;
   aqi?: number;
+  
 }
 
 export interface ProcessedChartData {
   dt: number;
+  feels_like?: number;
   temp: number;
   humidity: number;
   pop: number;
@@ -77,7 +80,8 @@ const Activities = () => {
     type: "hiking" | "running" | "picnic" | "stargazing"
   ): Array<{ time: string; value: number }> {
     return hourlyData
-      .filter((_, i) => i % 3 === 0)
+      .slice(0, 24)
+      .filter((_, i) => i % 2 === 0)
       .map((hour) => {
         const time = new Date(hour.dt * 1000);
         const timeLabel = time.toLocaleTimeString([], {
@@ -207,6 +211,11 @@ const Activities = () => {
     }
   }, [weather, weatherType]);
 
+
+  console.log("Chart Data:", chartData);
+
+  console.log("hourly data:", weather?.hourly[0].feels_like);
+  
   return (
     <div className="w-full flex flex-col md:flex-row gap-4 items-start">
       <div className="w-full flex flex-col items-start md:max-w-[262px] gap-[15px]">

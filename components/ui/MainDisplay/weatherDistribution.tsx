@@ -56,19 +56,27 @@ const WeatherDistribution = ({ collapse }: WeatherDistributionProps) => {
         time={getCurrentTimeFormatted()}
       />
 
-      <div className="h-[250px] xl:h-full w-full xl:max-w-[540px] flex items-center gap-4   overflow-scroll  no-scrollbar">
-        {weather?.daily?.slice(1, 7).map((item, i) => (
-          <FutureCard
-            key={i}
-            temperature={`${Math.round(item.temp.day)}°`}
-            image={
-              item.weather[0].icon
-                ? `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`
-                : ""
-            }
-            date={getAbbreviatedDay(item.dt)}
-          />
-        ))}
+      <div className="relative h-[250px] xl:h-full w-full xl:max-w-[540px] flex items-center gap-4 overflow-scroll no-scrollbar">
+        {weather?.daily ? (
+          weather.daily
+            .slice(1, 7)
+            .map((item, i) => (
+              <FutureCard
+                key={i}
+                temperature={`${Math.round(item.temp.day)}°`}
+                image={
+                  item.weather[0].icon
+                    ? `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`
+                    : ""
+                }
+                date={getAbbreviatedDay(item.dt)}
+              />
+            ))
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-lg">
+            <div className="w-12 h-12 border-4 border-grey-400 border-solid border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
       </div>
     </div>
   );

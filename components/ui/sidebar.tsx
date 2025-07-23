@@ -19,8 +19,6 @@ interface SideBarProps {
 }
 
 const SideBar = ({ collapse, toggleHandler }: SideBarProps) => {
-
-
   useEffect(() => {
     document.body.style.overflow = collapse ? "auto" : "hidden";
     return () => {
@@ -28,8 +26,6 @@ const SideBar = ({ collapse, toggleHandler }: SideBarProps) => {
     };
   }, [collapse]);
 
-
-  console.log("collapse", Calender);
   
 
   return (
@@ -42,27 +38,37 @@ const SideBar = ({ collapse, toggleHandler }: SideBarProps) => {
       )}
       <div
         className={cn(
-          `fixed top-0 left-0 h-screen py-6 px-6 flex flex-col items-start gap-16 border-r border-grey-100 bg-white z-50 transition-[width] duration-300 ease-in-out`,
-          collapse ? "w-[96px]" : "w-[272px]",
+          `fixed top-0 w-full left-0 h-screen py-6 px-6 flex flex-col items-start gap-16 border-r duration-150  overflow-hidden scroll-smooth border-grey-100 bg-white z-50 transition-[width]  ease-in-out`,
+          collapse ? "max-w-[96px]" : "max-w-[272px]",
           collapse ? "-translate-x-full md:translate-x-0" : "translate-x-0"
         )}
       >
-        <div className="w-full flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 cursor-pointer" onClick={toggleHandler}>
-             
-              <Image src={Logo} alt={"logo"} className="w-full h-full" />
-            </div>
-            {!collapse && (
+        <div
+          className={cn(
+            `w-full flex   items-center `,
+            collapse ? "justify-center" : "justify-between"
+          )}
+        >
+          {!collapse && (
+            <div className={cn(`flex items-center gap-2`)}>
+              <div
+                className="relative  w-10 h-10 cursor-pointer"
+                onClick={toggleHandler}
+              >
+                <Image src={Logo} alt={"logo"} className="w-full h-full" />
+              </div>
+
               <h2 className="text-md font-medium text-grey-600">
                 Weather Forcast
               </h2>
-            )}
-          </div>
-          <div>
-            {!collapse && (
-              <CloseIcon className="cursor-pointer" onClick={toggleHandler} />
-            )}
+            </div>
+          )}
+
+          <div className="relative w-fit">
+            <CloseIcon
+              className={cn(`cursor-pointer transition-all ease-in-out`)}
+              onClick={toggleHandler}
+            />
           </div>
         </div>
         <div className="w-full flex flex-col items-start gap-2">
@@ -87,39 +93,29 @@ const SideBar = ({ collapse, toggleHandler }: SideBarProps) => {
               icons: <Chart />,
               text: "Weather Data",
             },
-          ].map((item, index) =>
-            collapse ? (
-              <div key={index} className="p-3">
-                {item.icons}
-              </div>
-            ) : (
-              <SideBarcard
-                key={index}
-                icon={item.icons}
-                text={item.text}
-                index={index}
-              />
-            )
-          )}
+          ].map((item, index) => (
+            <SideBarcard
+              key={index}
+              icon={item.icons}
+              text={item.text}
+              index={index}
+              collapse={collapse}
+            />
+          ))}
         </div>
         <div className="flex flex-col gap-2 flex-1 items-end justify-end">
           {[
             { icons: <Setting />, text: "Settings" },
             { icons: <Support />, text: "Help & Support" },
-          ].map((item, index) =>
-            collapse ? (
-              <div key={index} className="p-3">
-                {item.icons}
-              </div>
-            ) : (
-              <SideBarcard
-                key={index}
-                icon={item.icons}
-                text={item.text}
-                index={index}
-              />
-            )
-          )}
+          ].map((item, index) => (
+            <SideBarcard
+              key={index}
+              icon={item.icons}
+              text={item.text}
+              index={index}
+              collapse={collapse}
+            />
+          ))}
         </div>
       </div>
     </>

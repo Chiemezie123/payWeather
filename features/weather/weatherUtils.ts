@@ -1,4 +1,3 @@
-
 interface SummaryResponse {
   choices?: Array<{
     message?: {
@@ -6,8 +5,6 @@ interface SummaryResponse {
     };
   }>;
 }
-
-
 
 interface WeatherData {
   temperature: number;
@@ -18,12 +15,10 @@ interface WeatherData {
   Cloudiness: number;
 }
 
-
-
 interface HourlyWeatherData {
   temp: number;
   uvi: number;
-  pop: number; 
+  pop: number;
   wind_speed: number;
   humidity: number;
 }
@@ -31,12 +26,10 @@ interface HourlyWeatherData {
 interface HourlyWeatherData {
   temp: number;
   uvi: number;
-  pop: number; 
+  pop: number;
   wind_speed: number;
   humidity: number;
 }
-
-
 
 export const getSuggestion = (temp: number, condition: string) => {
   const lowerCondition = condition.toLowerCase();
@@ -46,15 +39,7 @@ export const getSuggestion = (temp: number, condition: string) => {
   return "You're good to go! 😎";
 };
 
-
-
-
-
-
-
-
 export async function getSummary(weatherData: WeatherData): Promise<string> {
-  console.log("Weather data in getSummary:", weatherData);
   try {
     const response = await fetch("/api/summary", {
       method: "POST",
@@ -66,8 +51,6 @@ export async function getSummary(weatherData: WeatherData): Promise<string> {
 
     const data: SummaryResponse = await response.json();
 
-    console.log(data, "lets see the data");
-
     const message = data.choices?.[0]?.message?.content;
     return message || "No summary available";
   } catch (error) {
@@ -76,30 +59,11 @@ export async function getSummary(weatherData: WeatherData): Promise<string> {
   }
 }
 
-
-
-
-
-
-
-
-
 export function toPercentage(value: number, total: number) {
   if (total === 0) return "0%";
   const percentage = (value / total) * 100;
   return `${Math.ceil(percentage)}%`;
 }
-
-
-
-
-
-
-
-
- 
-
-
 
 export function calculateOutdoorScore(hour: HourlyWeatherData): number {
   const temp = hour.temp;
@@ -145,25 +109,6 @@ export function calculateOutdoorScore(hour: HourlyWeatherData): number {
   return Math.max(0, Math.min(100, score));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export function vehicleMovementScore(hour: {
   visibility?: number;
   wind_speed?: number;
@@ -174,14 +119,6 @@ export function vehicleMovementScore(hour: {
   const visibility = hour.visibility ?? 0;
   const wind = hour.wind_speed ?? 0;
   const precip = hour.pop ?? 0;
-  console.log(
-    "Visibility:",
-    visibility,
-    "Wind Speed:",
-    wind,
-    "Precipitation:",
-    precip
-  );
 
   if (visibility < 2000) {
     score -= 60;
@@ -204,4 +141,33 @@ export function vehicleMovementScore(hour: {
   }
 
   return Math.max(0, Math.min(100, score));
+}
+
+export function processHeatStrokeRisk(feelsLike: number): number {
+  if (feelsLike < 27) return 0;
+  if (feelsLike < 31) return 1;
+  if (feelsLike < 35) return 2;
+  if (feelsLike < 39) return 3;
+  if (feelsLike < 43) return 4;
+  return 5;
+}
+
+
+export function calculateDressingIndex(hour: HourlyWeatherData): number {
+  let score = 0;
+
+  // Temperature effect
+  score += 5 - Math.min(hour.temp, 40) / 10;
+
+  // Precipitation (chance of rain)
+  score += (hour.pop ?? 0) * 2;
+
+  // Wind (more wind = dress warmer)
+  score += Math.min(hour.wind_speed ?? 0, 20) / 5;
+
+  // Humidity (humid = dress lighter)
+  score -= Math.min(hour.humidity ?? 0, 100) / 50;
+
+  // Clamp score between 0 and 5
+  return Math.max(0, Math.min(5, parseFloat(score.toFixed(2))));
 }

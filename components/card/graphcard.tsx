@@ -37,7 +37,7 @@ const Graphcard = ({
           <p className="text-md text-grey-700 leading-[150%]">{description}</p>
         </div>
       </div>
-      <div className="w-full">
+      <div className="relative w-full min-h-[300px]">
         {chartDetails ? (
           <WeatherChart
             chartData={chartDetails.chartData}
@@ -45,7 +45,9 @@ const Graphcard = ({
             activity={chartDetails.activity}
           />
         ) : (
-          <p>No chart data available</p>
+          <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-lg">
+            <div className="w-12 h-12 border-4 border-grey-400 border-solid border-t-transparent rounded-full animate-spin"></div>
+          </div>
         )}
       </div>
     </div>

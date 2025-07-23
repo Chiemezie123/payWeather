@@ -17,6 +17,7 @@ interface WeatherData {
   hourly: {
     dt: number;
     temp: number;
+    feels_like?: number;
     weather: {
       description: string;
       icon: string;
@@ -59,7 +60,7 @@ export const useWeather = (lat: number, lon: number) => {
     try {
       setLoading(true);
       const data = await getWeatherByLatLon(lat, lon);
-      console.log(" data:", data);
+      
       setWeather(data);
     } catch (err) {
       setError("Failed to fetch weather data");

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
             role: 'user',
             content: `Here is the weather data: ${JSON.stringify(
               weatherData
-            )}. Based on this, what activities can be done today?. in one simple sentence`,
+            )}. Based on this, what activities can be done today?. in one simple sentence, not more than 10 words.`,
           },
         ],
       }),
