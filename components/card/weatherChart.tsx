@@ -21,8 +21,7 @@ export type ActivityType =
   | "running"
   | "picnic"
   | "stargazing"
-  | "cycling"
-  | "gardening";
+  
 
 export type ChartDataPoint = {
   time: string;

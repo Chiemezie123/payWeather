@@ -1,3 +1,6 @@
+import { WeatherCategory } from "@/components/card/weatherChart";
+import { ChartDataItem } from "@/components/ui/MainDisplay/healthSafety";
+
 interface SummaryResponse {
   choices?: Array<{
     message?: {
@@ -171,3 +174,6 @@ export function calculateDressingIndex(hour: HourlyWeatherData): number {
   // Clamp score between 0 and 5
   return Math.max(0, Math.min(5, parseFloat(score.toFixed(2))));
 }
+
+
+

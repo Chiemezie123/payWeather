@@ -15,6 +15,7 @@ const Graphcard = ({
   description,
   chartDetails,
   imgSrc,
+  
 }: GraphcardProps) => {
   return (
     <div className=" w-full flex flex-col items-start gap-12 rounded-2xl border p-4">
