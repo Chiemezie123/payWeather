@@ -1,6 +1,3 @@
-import { WeatherCategory } from "@/components/card/weatherChart";
-import { ChartDataItem } from "@/components/ui/MainDisplay/healthSafety";
-
 interface SummaryResponse {
   choices?: Array<{
     message?: {
@@ -155,25 +152,16 @@ export function processHeatStrokeRisk(feelsLike: number): number {
   return 5;
 }
 
-
 export function calculateDressingIndex(hour: HourlyWeatherData): number {
   let score = 0;
 
-  // Temperature effect
   score += 5 - Math.min(hour.temp, 40) / 10;
 
-  // Precipitation (chance of rain)
   score += (hour.pop ?? 0) * 2;
 
-  // Wind (more wind = dress warmer)
   score += Math.min(hour.wind_speed ?? 0, 20) / 5;
 
-  // Humidity (humid = dress lighter)
   score -= Math.min(hour.humidity ?? 0, 100) / 50;
 
-  // Clamp score between 0 and 5
   return Math.max(0, Math.min(5, parseFloat(score.toFixed(2))));
 }
-
-
-
