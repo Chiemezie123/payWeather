@@ -1,9 +1,9 @@
-
+import Image, { StaticImageData } from "next/image";
 
 interface MainDisplayCardProps {
   time: string;
   temperature: string;
-  imgSrc: string;
+  imgSrc: StaticImageData | string | undefined;
   shortDetail: string;
   shortDescription: string;
 }
@@ -16,7 +16,7 @@ const MainDisplayCard = ({
   shortDescription,
 }: MainDisplayCardProps) => {
   return (
-    <div className="w-full xl:w-fit flex-1 h-full rounded-2xl p-4 flex flex-col gap-2 bg-grey-50 border border-grey-100 ">
+    <div className="w-full xl:max-w-[540px] flex-1 h-full rounded-2xl p-4 flex flex-col gap-2 bg-grey-50 border border-grey-100 ">
       <div className="flex flex-col gap-2 items-start">
         <h4 className="text-sm font-bold text-grey-600 ">Current Weather</h4>
         <p className="text-grey-600">{time}</p>
@@ -24,7 +24,11 @@ const MainDisplayCard = ({
       <div className="flex items-center gap-2">
         <div className="flex items-center">
           <div className="flex w-12 h-12 sm:w-20 sm:h-20 p-[12.5px_8.333px] items-center justify-center">
-            <img src={imgSrc} alt={imgSrc} />
+            {imgSrc ? (
+              <Image src={imgSrc} alt="Weather icon"  width={48} height={48} />
+            ) : (
+              <div className="w-full h-full bg-grey-200 rounded" />
+            )}
           </div>
           <div className="flex items-center">
             <p className="text-3xl sm:text-5xl text-grey-900">

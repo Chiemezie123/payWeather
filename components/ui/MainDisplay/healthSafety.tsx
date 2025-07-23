@@ -1,5 +1,6 @@
-import ActivityCard from "@/components/cards/activityCard";
-import Graphcard from "@/components/cards/graphcard";
+"use client";
+import ActivityCard from "@/components/card/activityCard";
+import Graphcard from "@/components/card/graphcard";
 import { healthCardData, LAT, LON } from "@/constants/option";
 import {
   calculateOutdoorScore,

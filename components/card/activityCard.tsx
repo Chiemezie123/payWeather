@@ -1,7 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
+import { StaticImageData } from "next/image";
+import Image from "next/image";
 
+// Solution 1: Use Next.js Image component (Recommended)
 export interface ActivityCardProps {
-  imgSrc: string;
+  imgSrc: StaticImageData;
   text: string;
   check: string;
   onClick: () => void;
@@ -18,11 +21,18 @@ const ActivityCard = ({ imgSrc, text, onClick, check }: ActivityCardProps) => {
     >
       <div
         className={cn(
-          `w-10 h-10 flex items-center justify-center border  rounded-[100px]`,
+          `w-10 h-10 flex items-center justify-center border rounded-[100px]`,
           check === text ? "border border-[#3793FF]" : "border-grey-100"
         )}
       >
-        <img src={imgSrc} alt={imgSrc} className="w-6 h-6" />
+        
+        <Image 
+          src={imgSrc} 
+          alt={text} 
+          width={24}
+          height={24}
+          className="w-6 h-6" 
+        />
       </div>
       <div className="">
         <p className="text-grey-900 font-medium">{text}</p>

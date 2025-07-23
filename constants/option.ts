@@ -10,7 +10,7 @@ import Picnic from "@/assets/images/Umbrella_On_Ground.png";
 import Stargazing from "@/assets/images/Shooting_Star.png";
 
 
-import type { ActivityCardProps } from "@/components/cards/activityCard";
+import type { ActivityCardProps } from "@/components/card/activityCard";
 
 export const LAT = 6.5244;
 export const LON = 3.3792;

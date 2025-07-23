@@ -1,12 +1,12 @@
-import Location from "@/assets/svg/location.svg?react";
-import ArrowDown from "@/assets/svg/arrow-down.svg?react";
+import Location from "@/assets/svg/location.svg";
+import ArrowDown from "@/assets/svg/arrow-down.svg";
 import { getFormattedDate, getGreeting } from "@/features/date/dateUtils";
 
 const Profile = () => {
   const greeting = getGreeting();
   const today = getFormattedDate();
   return (
-    <div className="w-full flex flex-col md:flex-row  items-start sm:items-end lg:items-center gap-2 sm:gap-0 justify-between  mt-8">
+    <div className="max-w-[1440px] mx-auto w-full flex flex-col md:flex-row  items-start sm:items-end lg:items-center gap-2 sm:gap-0 justify-between  mt-8">
       <div className="max-w-[379px] w-full flex flex-col gap-2">
         <h2 className="text-2xl sm:text-3xl font-bold text-grey-900 flex items-center">
           {greeting}, Paystack!

@@ -1,7 +1,9 @@
+
+'use client';
 import { useEffect, useState } from "react";
 import { activityCardData, LAT, LON } from "@/constants/option";
-import ActivityCard from "@/components/cards/activityCard";
-import Graphcard from "@/components/cards/graphcard";
+import ActivityCard from "@/components/card/activityCard";
+import Graphcard from "@/components/card/graphcard";
 import { useWeather } from "@/hooks/useWeather";
 import Mountain from "@/assets/images/Mountain.png";
 import Running from "@/assets//images/Man_Running.png";

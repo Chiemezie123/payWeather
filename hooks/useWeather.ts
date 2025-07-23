@@ -1,4 +1,4 @@
-
+'use client';
 import { useEffect, useState } from "react";
 import { getWeatherByLatLon } from "@/features/weather/weatherService";
 

@@ -1,6 +1,7 @@
+'use client';
 import { useEffect, useState } from "react";
-import FutureCard from "@/components/cards/futureCard";
-import MainDisplayCard from "@/components/cards/mainDisplayCard";
+import FutureCard from "@/components/card/futureCard";
+import MainDisplayCard from "@/components/card/mainDisplayCard";
 
 import image from "@/assets/images/Sun.png";
 import { LAT, LON } from "@/constants/option";
@@ -40,7 +41,7 @@ const WeatherDistribution = () => {
   const current = weather?.current;
 
   return (
-    <div className="w-full xl:h-[250px] flex flex-col xl:flex-row gap-4 items-start">
+    <div className="xl:h-[250px] flex flex-col xl:flex-row gap-4 items-start">
       <MainDisplayCard
         temperature={current?.temp ? `${Math.round(current.temp)}°` : "N/A"}
         shortDetail={current?.weather[0]?.description || "N/A"}
@@ -53,7 +54,7 @@ const WeatherDistribution = () => {
         time={getCurrentTimeFormatted()}
       />
 
-      <div className="h-full flex items-center gap-4 overflow-x-scroll no-scrollbar">
+      <div className="h-[250px] xl:h-full w-full xl:max-w-[540px] shrink-0 flex items-center gap-4  lg:overflow-scroll  no-scrollbar">
         {weather?.daily?.slice(1, 7).map((item, i) => (
           <FutureCard
             key={i}

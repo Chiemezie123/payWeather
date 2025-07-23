@@ -1,8 +1,8 @@
-import WeatherParameterCard from "@/components/cards/weatherParameterCard";
-import Wind from "@/assets/svg/wind.svg?react";
-import Drop from "@/assets/svg/drop.svg?react";
-import Cloud from "@/assets/svg/cloud-fog.svg?react";
-import Gauge from "@/assets/svg/wind-2.svg?react";
+import WeatherParameterCard from "@/components/card/weatherParameterCard";
+import Wind from "@/assets/svg/wind.svg";
+import Drop from "@/assets/svg/drop.svg";
+import Cloud from "@/assets/svg/cloud-fog.svg";
+import Gauge from "@/assets/svg/wind-2.svg";
 import { LAT, LON } from "@/constants/option";
 import { useWeather } from "@/hooks/useWeather";
 

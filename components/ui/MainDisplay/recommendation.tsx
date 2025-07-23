@@ -1,4 +1,5 @@
-import { cn } from "@/lib/utils";
+'use client';
+import { cn } from "@/libs/utils";
 import { useState } from "react";
 import HealthSafety from "./healthSafety";
 import Activities from "./activities";

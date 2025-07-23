@@ -1,15 +1,17 @@
+"use client";
 import { useEffect } from "react";
 import Logo from "@/assets/images/MainLogo.png";
-import SideBarcard from "../cards/sideBarcard";
-import Cloud from "@/assets/svg/cloud.svg?react";
-import Calender from "@/assets/svg/calendar.svg?react";
-import Receipt from "@/assets/svg/receipt.svg?react";
-import Map from "@/assets/svg/map.svg?react";
-import Chart from "@/assets/svg/chart.svg?react";
-import Setting from "@/assets/svg/setting-2.svg?react";
-import Support from "@/assets/svg/24-support.svg?react";
-import CloseIcon from "@/assets/svg/sidebar-left.svg?react";
-import { cn } from "@/lib/utils";
+import SideBarcard from "@/components/card/sideBarcard";
+import Cloud from "@/assets/svg/cloud.svg";
+import Calender from "@/assets/svg/calendar.svg";
+import Receipt from "@/assets/svg/receipt.svg";
+import Map from "@/assets/svg/map.svg";
+import Chart from "@/assets/svg/chart.svg";
+import Setting from "@/assets/svg/setting-2.svg";
+import Support from "@/assets/svg/24-support.svg";
+import CloseIcon from "@/assets/svg/sidebar-left.svg";
+import { cn } from "@/libs/utils";
+import Image from "next/image";
 
 interface SideBarProps {
   collapse: boolean;
@@ -17,12 +19,18 @@ interface SideBarProps {
 }
 
 const SideBar = ({ collapse, toggleHandler }: SideBarProps) => {
+
+
   useEffect(() => {
     document.body.style.overflow = collapse ? "auto" : "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [collapse]);
+
+
+  console.log("collapse", Calender);
+  
 
   return (
     <>
@@ -42,7 +50,8 @@ const SideBar = ({ collapse, toggleHandler }: SideBarProps) => {
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 cursor-pointer" onClick={toggleHandler}>
-              <img src={Logo} alt={Logo} className="w-full h-full" />
+             
+              <Image src={Logo} alt={"logo"} className="w-full h-full" />
             </div>
             {!collapse && (
               <h2 className="text-md font-medium text-grey-600">
