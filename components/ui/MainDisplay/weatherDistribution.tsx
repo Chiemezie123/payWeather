@@ -56,7 +56,7 @@ const WeatherDistribution = ({ collapse }: WeatherDistributionProps) => {
         time={getCurrentTimeFormatted()}
       />
 
-      <div className="relative h-[250px] xl:h-full w-full xl:max-w-[540px] flex items-center gap-4 overflow-scroll no-scrollbar">
+      <div className="relative h-[250px] xl:h-full w-full xl:max-w-[540px] flex items-center gap-2  md:gap-4 overflow-scroll no-scrollbar">
         {weather?.daily ? (
           weather.daily
             .slice(1, 7)
@@ -73,9 +73,10 @@ const WeatherDistribution = ({ collapse }: WeatherDistributionProps) => {
               />
             ))
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-lg">
-            <div className="w-12 h-12 border-4 border-grey-400 border-solid border-t-transparent rounded-full animate-spin"></div>
-          </div>
+          <p>tyuiop</p>
+          //   <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-lg">
+          //     <div className="w-12 h-12 border-4 border-grey-400 border-solid border-t-transparent rounded-full animate-spin"></div>
+          //   </div>
         )}
       </div>
     </div>

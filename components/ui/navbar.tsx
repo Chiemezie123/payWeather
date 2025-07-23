@@ -13,7 +13,7 @@ const NavBar = ({ collapse, openSidebar }: NavBarProps) => {
   return (
     <section>
      <div className="border-grey-100 border-b w-full">
-         <div className={cn(`relative lg:sticky top-0  mx-auto h-20 my-auto w-full flex items-center   justify-between   md:justify-center lg:justify-end   px-5  md:px-[36px]`,
+         <div className={cn(`relative  static  lg:sticky top-0  mx-auto h-20 my-auto w-full flex items-center   justify-between   md:justify-center lg:justify-end   px-5  md:px-[36px]`,
         collapse ? "max-w-[900px] xl:max-w-[1264px]" : "max-w-[700px] xl:max-w-[1096px]"
       )}>
         <div className="max-w-10 w-full">

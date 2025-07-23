@@ -21,13 +21,13 @@ const MainDisplayCard = ({
   return (
     <div
       className={cn(
-        `w-full  flex-1 h-full rounded-2xl p-4 flex flex-col gap-2 bg-grey-50 border border-grey-100`,
+        `w-full  flex-1 h-full rounded-2xl p-4 flex flex-col gap-2 bg-[linear-gradient(225deg,_#3793FF_-3.36%,_#0017E4_103.57%)] border border-grey-100`,
         collapse ? "" : " xl:max-w-[540px]"
       )}
     >
       <div className="flex flex-col gap-2 items-start">
-        <h4 className="text-sm font-bold text-grey-600 ">Current Weather</h4>
-        <p className="text-grey-600">{time}</p>
+        <h4 className="text-sm font-bold text-white ">Current Weather</h4>
+        <p className="text-white">{time}</p>
       </div>
       <div className="flex items-center gap-2">
         <div className="flex items-center">
@@ -39,7 +39,7 @@ const MainDisplayCard = ({
             )}
           </div>
           <div className="flex items-center">
-            <p className="text-3xl sm:text-5xl text-grey-900">
+            <p className="text-3xl sm:text-5xl text-white">
               {temperature}
               <span>C</span>
             </p>
@@ -47,9 +47,9 @@ const MainDisplayCard = ({
         </div>
         <div>
           {shortDetail ? (
-            <p className="text-grey-600 font-bold text-md">{shortDetail}</p>
+            <p className="text-white font-bold text-md">{shortDetail}</p>
           ) : (
-            <p className="text-grey-600 font-bold text-md">
+            <p className="text-white font-bold text-md">
               {" "}
               loading summary ...
             </p>
@@ -57,7 +57,7 @@ const MainDisplayCard = ({
         </div>
       </div>
       <div className="w-full">
-        <p className="text-grey-600  text-md">{shortDescription}</p>
+        <p className="text-white  text-md">{shortDescription}</p>
       </div>
     </div>
   );

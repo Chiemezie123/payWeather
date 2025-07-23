@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import ArrowUp from "@/assets/svg/arrow-up.svg";
 import ArrowDown from "@/assets/svg/arrow-down.svg";
 import Image, { StaticImageData } from "next/image";
@@ -11,8 +12,6 @@ interface MobileGraphCardProps {
   chartDetails?: WeatherChartProps;
   title?: string;
   description?: string;
-  onClick?: () => void;
-  isActive?: boolean;
 }
 
 const MobileGraphCard = ({
@@ -21,16 +20,20 @@ const MobileGraphCard = ({
   description,
   imgSrc,
   chartDetails,
-  isActive,
-  onClick,
 }: MobileGraphCardProps) => {
+  const [isActive, setActive] = useState(false);
+
+  const handleopen = () => {
+    setActive((prop) => !prop);
+    console.log("holla");
+  };
+
   return (
     <div
       className={cn(
         `w-full flex flex-col items-start p-4 rounded-2xl border  `,
         isActive ? "border-blue-600" : "border-grey-100"
       )}
-      onClick={onClick}
     >
       <div className="w-full flex items-center justify-between">
         <div className="w-full flex items-center gap-4">
@@ -48,7 +51,7 @@ const MobileGraphCard = ({
             {activityType}
           </h2>
         </div>
-        <div className="w-full max-w-6 h-6">
+        <div className="w-full max-w-6 h-6" onClick={() => handleopen()}>
           {isActive ? <ArrowUp /> : <ArrowDown />}
         </div>
       </div>
@@ -73,9 +76,11 @@ const MobileGraphCard = ({
               activity={chartDetails.activity}
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-lg">
-              <div className="w-12 h-12 border-4 border-grey-400 border-solid border-t-transparent rounded-full animate-spin"></div>
-            </div>
+            // <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-lg">
+            //   <div className="w-12 h-12 border-4 border-grey-400 border-solid border-t-transparent rounded-full animate-spin"></div>
+            // </div>
+
+            <p>asdfghj</p>
           )}
         </div>
       </div>
