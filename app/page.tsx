@@ -22,7 +22,7 @@ export default function Home() {
       <div
         className={cn(
           "flex flex-col flex-1 overflow-y-auto transition-all duration-300 ease-in-out",
-          collapsed ? "ml-0 sm:ml-[96px]" : "ml-0 sm:ml-[272px]"
+          collapsed ? "ml-0 md:ml-[96px]" : "ml-0 sm:ml-[272px]"
         )}
       >
         <NavBar collapse={collapsed} openSidebar={toggleSidebar} />

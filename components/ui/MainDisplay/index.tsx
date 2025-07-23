@@ -17,7 +17,7 @@ const MainDisplay = ({ collapse }: MainDisplayProps) => {
         )}
       >
         <Profile />
-        <WeatherDistribution />
+        <WeatherDistribution  collapse={collapse}/>
         <Parameters />
         <Recommendation />
       </div>

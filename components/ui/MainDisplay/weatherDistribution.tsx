@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import FutureCard from "@/components/card/futureCard";
 import MainDisplayCard from "@/components/card/mainDisplayCard";
@@ -12,8 +12,11 @@ import {
 } from "@/features/date/dateUtils";
 import { getSummary } from "@/features/weather/weatherUtils";
 
-const WeatherDistribution = () => {
-  const { weather} = useWeather(LAT, LON);
+interface WeatherDistributionProps {
+  collapse?: boolean;
+}
+const WeatherDistribution = ({ collapse }: WeatherDistributionProps) => {
+  const { weather } = useWeather(LAT, LON);
 
   const [summary, setSummary] = useState("");
 
@@ -36,14 +39,13 @@ const WeatherDistribution = () => {
     fetchSummary();
   }, [weather]);
 
- 
-
   const current = weather?.current;
 
   return (
     <div className="xl:h-[250px] flex flex-col xl:flex-row gap-4 items-start">
       <MainDisplayCard
         temperature={current?.temp ? `${Math.round(current.temp)}°` : "N/A"}
+        collapse={collapse}
         shortDetail={current?.weather[0]?.description || "N/A"}
         shortDescription={summary}
         imgSrc={
@@ -54,7 +56,7 @@ const WeatherDistribution = () => {
         time={getCurrentTimeFormatted()}
       />
 
-      <div className="h-[250px] xl:h-full w-full xl:max-w-[540px] shrink-0 flex items-center gap-4  lg:overflow-scroll  no-scrollbar">
+      <div className="h-[250px] xl:h-full w-full xl:max-w-[540px] flex items-center gap-4   overflow-scroll  no-scrollbar">
         {weather?.daily?.slice(1, 7).map((item, i) => (
           <FutureCard
             key={i}

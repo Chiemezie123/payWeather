@@ -12,13 +12,15 @@ interface NavBarProps {
 const NavBar = ({ collapse, openSidebar }: NavBarProps) => {
   return (
     <section>
-      <div className=" h-20 my-auto w-full flex items-center border  justify-between  sm:justify-center lg:justify-end gap-4 border-grey-100 border-b px-[36px]">
-        <CloseIcon className="block sm:hidden" onClick={openSidebar} />
-        <div className="flex items-center gap-4">
+      <div className="max-w-[1440px] mx-auto h-20 my-auto w-full flex items-center   justify-between   md:justify-center lg:justify-end  border-grey-100 border-b px-5 md:px-[36px]">
+        <div className="max-w-10 w-full">
+          <CloseIcon className="block md:hidden" onClick={openSidebar} />
+        </div>
+        <div className="flex items-center justify-end  gap-4 max-w-[500px] w-full">
           {" "}
           <div
             className={cn(
-              ` h-12 p-[12px_64px_12px_16px] sm:flex items-center gap-[15px] bg-grey-50 rounded-2xl hidden `,
+              ` h-12 p-[12px_64px_12px_16px] md:flex items-center gap-[15px] bg-grey-50 rounded-2xl hidden `,
               collapse ? "w-[330px]" : "w-[300px] lg:w-[330px]"
             )}
           >

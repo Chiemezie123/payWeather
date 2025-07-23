@@ -191,8 +191,8 @@ const HealthSafety = () => {
   }, [weather, weatherType]);
 
   return (
-    <div className="w-full flex gap-4 items-start">
-      <div className="w-full flex flex-col items-start max-w-[262px] gap-[15px]">
+    <div className="w-full flex  flex-col lg:flex-row gap-4 items-start">
+      <div className="w-full flex flex-col items-start lg:max-w-[262px] gap-[15px]">
         {healthCardData.map((card, index) => (
           <ActivityCard
             check={weatherType}

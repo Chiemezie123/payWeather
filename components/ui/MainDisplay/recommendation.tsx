@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "@/libs/utils";
 import { useState } from "react";
 import HealthSafety from "./healthSafety";
@@ -9,7 +9,7 @@ const Recommendation = () => {
     "Health & Safety"
   );
   return (
-    <div className="w-full flex flex-col gap-6 items-start">
+    <div className="w-full flex flex-col gap-6 items-start pb-5 md:pb-0">
       <div className="w-full flex flex-col gap-[10px]">
         <h2 className="text-xl text-grey-900 font-bold">Recommendations</h2>
         <div className="w-full flex flex-items-center gap-6 border-b border-grey-100">
@@ -53,7 +53,9 @@ const Recommendation = () => {
           </div>
         </div>
       </div>
-      <div className="w-full">{toggleTab === "Health & Safety" ? <HealthSafety /> : <Activities/>}</div>
+      <div className="w-full">
+        {toggleTab === "Health & Safety" ? <HealthSafety /> : <Activities />}
+      </div>
     </div>
   );
 };
