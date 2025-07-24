@@ -21,12 +21,15 @@ export const healthCardData: ActivityCardProps[] = [
     text: "umbrella",
     check: "",
     onClick: () => {},
+     onMouseEnter:()=>{},
+    
   },
 
   {
     imgSrc: outdoor,
     text: "outdoor",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
 
@@ -34,24 +37,28 @@ export const healthCardData: ActivityCardProps[] = [
     imgSrc: uv,
     text: "uvindex",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
   {
     imgSrc: drive,
     text: "vehicle",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
   {
     imgSrc: clothing,
     text: "clothing",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
   {
     imgSrc: heat,
     text: "heatstroke",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
 ];
@@ -61,6 +68,7 @@ export const activityCardData: ActivityCardProps[] = [
     imgSrc: Mountain,
     text: "hiking",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
 
@@ -68,6 +76,7 @@ export const activityCardData: ActivityCardProps[] = [
     imgSrc: Running,
     text: "running",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
 
@@ -75,12 +84,14 @@ export const activityCardData: ActivityCardProps[] = [
     imgSrc: Picnic,
     text: "picnic",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
   {
     imgSrc: Stargazing,
     text: "stargazing",
     onClick: () => {},
+     onMouseEnter:()=>{},
     check: "",
   },
  

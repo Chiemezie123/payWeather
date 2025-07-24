@@ -11,48 +11,23 @@ import Stargazing from "@/assets/images/Shooting_Star.png";
 import { useScreenSize } from "@/hooks/useScreensize";
 import { ActivityType, WeatherCategory } from "@/components/card/weatherChart";
 import MobileGraphCard from "@/components/card/mobileGraphCard";
-
-export interface HourlyWeatherData {
-  dt: number;
-  temp: number;
-  feels_like?: number;
-  weather: Array<{
-    description: string;
-    icon: string;
-  }>;
-  humidity: number;
-  wind_speed: number;
-  uvi: number;
-  clouds: number;
-  pressure: number;
-  visibility: number;
-  pop?: number;
-  aqi?: number;
-}
-
-export interface ProcessedChartData {
-  dt: number;
-  feels_like?: number;
-  temp: number;
-  humidity: number;
-  pop: number;
-  clouds: number;
-  uvi: number;
-  wind_speed: number;
-  aqi?: { value: number };
-}
-
-type ChartDataItem =
-  | { time: string; score: number }
-  | { time: string; precipitation: number }
-  | { time: string; temperature: number; precipitation: number }
-  | { time: string; uvi: number }
-  | { time: string; feels_like: number }
-  | { time: string };
+import { useRecommendationData } from "@/hooks/useRecommendationData";
+import {
+  HourlyWeatherData,
+  ChartDataItem,
+  processChartDataActivity,
+} from "@/features/weather/types/weather";
 
 const Activities = () => {
   const { weather } = useWeather(LAT, LON);
   const isMobile = useScreenSize();
+
+  const {
+    getData,
+    prefetchData,
+    loading: recommendationLoading,
+  } = useRecommendationData<ActivityType>(weather?.hourly, processChartDataActivity);
+
   const [mobileCards, setMobileCards] = useState<
     {
       activityType: ActivityType;
@@ -60,7 +35,6 @@ const Activities = () => {
       recommendation: { title: string; description: string };
     }[]
   >([]);
-  const [isActive, setActive] = useState<string>("");
 
   const [weatherType, setWeatherType] = useState<
     "hiking" | "running" | "picnic" | "stargazing"
@@ -71,9 +45,7 @@ const Activities = () => {
     description: "Please wait while we generate a summary.",
   });
 
-  const [chartData, setChartData] = useState<{ time: string; value: number }[]>(
-    []
-  );
+  const [chartData, setChartData] = useState<ChartDataItem[]>([]);
 
   const selectActivityImage = [
     {
@@ -94,191 +66,17 @@ const Activities = () => {
     },
   ];
 
-  function processChartData(
-    hourlyData: Array<ProcessedChartData>,
-    type: "hiking" | "running" | "picnic" | "stargazing"
-  ): Array<{ time: string; value: number }> {
-    return hourlyData
-      .slice(0, 24)
-      .filter((_, i) => i % 2 === 0)
-      .map((hour) => {
-        const time = new Date(hour.dt * 1000);
-        const timeLabel = time.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-
-        const temp = hour.temp;
-        const humidity = hour.humidity;
-        const pop = hour.pop;
-        const clouds = hour.clouds;
-        const uvi = hour.uvi;
-        const wind = hour.wind_speed;
-        const aqi = hour.aqi?.value || 1;
-
-        let score = 0;
-
-        if (type === "picnic") {
-          const hourOfDay = time.getHours();
-          const isDaytime = hourOfDay >= 6 && hourOfDay <= 18;
-          if (isDaytime) {
-            if (temp >= 18 && temp <= 28) score++;
-            if (humidity < 60) score++;
-            if (pop < 0.2) score++;
-            if (clouds < 40) score++;
-            if (uvi < 6) score++;
-            if (wind < 5) score++;
-            if (aqi <= 2) score++;
-          }
-          score = Math.min(5, (score / 7) * 5);
-        }
-
-        if (type === "hiking") {
-          const hourOfDay = time.getHours();
-          const isDaytime = hourOfDay >= 6 && hourOfDay <= 18;
-          if (isDaytime) {
-            if (temp >= 10 && temp <= 25) score++;
-            if (pop < 0.1) score++;
-            if (uvi < 6) score++;
-            if (wind < 6) score++;
-            if (aqi <= 2) score++;
-          }
-          score = Math.min(5, score);
-        }
-
-        if (type === "running") {
-          const hourOfDay = time.getHours();
-          const isDaytime = hourOfDay >= 6 && hourOfDay <= 18;
-          if (isDaytime) {
-            if (temp >= 10 && temp <= 25) score++;
-            if (pop < 0.1) score++;
-            if (uvi < 6) score++;
-            if (wind < 6) score++;
-            if (aqi <= 2) score++;
-          }
-          score = Math.min(5, score);
-        }
-
-        if (type === "stargazing") {
-          const hourOfDay = time.getHours();
-          const isNight = hourOfDay >= 20 || hourOfDay <= 4;
-
-          if (isNight) {
-            if (temp >= 5 && temp <= 20) score++;
-            if (humidity < 80) score++;
-            if (pop < 0.1) score++;
-            if (clouds < 20) score++;
-            if (aqi <= 2) score++;
-          }
-          score = Math.min(5, score);
-        }
-
-        return {
-          time: timeLabel,
-          value: score,
-        };
-      });
-  }
-
   useEffect(() => {
-    if (weather?.hourly) {
-      const fetchRecommendation = async () => {
-        try {
-          const updatedData = processChartData(
-            weather.hourly.map((hour: HourlyWeatherData) => ({
-              dt: hour.dt,
-              temp: hour.temp,
-              humidity: hour.humidity,
-              pop: hour.pop ?? 0,
-              clouds: hour.clouds,
-              uvi: hour.uvi,
-              wind_speed: hour.wind_speed,
-              aqi:
-                typeof hour.aqi === "number" ? { value: hour.aqi } : undefined,
-            })),
-            weatherType
-          );
-          setChartData(updatedData);
+    const init = async () => {
+      if (!weather?.hourly || isMobile) return;
 
-          const response = await fetch("api/recommendation", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ weatherType, chartData: updatedData }),
-          });
+      const result = await getData(weatherType);
+      setChartData(result.chartData);
+      setRecommendation(result.recommendation);
+    };
 
-          const data = await response.json();
-
-          if (data?.title && data?.description) {
-            setRecommendation(data);
-          } else {
-            setRecommendation({
-              title: "Recommendation not available",
-              description: "We couldn't generate a summary at this time.",
-            });
-          }
-        } catch {
-          setRecommendation({
-            title: "Error generating recommendation",
-            description: "Please try again later.",
-          });
-        } finally {
-          console.log("Recommendation fetched successfully");
-        }
-      };
-
-      fetchRecommendation();
-    }
-  }, [weather, weatherType]);
-
-  const getChartAndRecommendation = async (
-    type: ActivityType
-  ): Promise<{
-    chartData: ChartDataItem[];
-    recommendation: { title: string; description: string };
-  }> => {
-    const hourly = weather?.hourly ?? [];
-
-    const processedData = processChartData(
-      hourly.map((hour: HourlyWeatherData) => ({
-        dt: hour.dt,
-        temp: hour.temp,
-        feels_like: hour.feels_like,
-        humidity: hour.humidity,
-        pop: hour.pop ?? 0,
-        clouds: hour.clouds,
-        uvi: hour.uvi,
-        wind_speed: hour.wind_speed,
-        aqi: typeof hour.aqi === "number" ? { value: hour.aqi } : undefined,
-      })),
-      type
-    );
-
-    try {
-      const response = await fetch("/api/recommendation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ weatherType: type, chartData: processedData }),
-      });
-
-      const data = await response.json();
-
-      return {
-        chartData: processedData,
-        recommendation: {
-          title: data?.title ?? "No title",
-          description: data?.description ?? "No description",
-        },
-      };
-    } catch (error) {
-      return {
-        chartData: processedData,
-        recommendation: {
-          title: "Error fetching recommendation",
-          description: "Try again later",
-        },
-      };
-    }
-  };
+    init();
+  }, [weather, weatherType, isMobile]);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -287,14 +85,12 @@ const Activities = () => {
       const results = await Promise.all(
         activityCardData.map(async (card) => {
           const type = card.text as ActivityType;
-          const { chartData, recommendation } = await getChartAndRecommendation(
-            type
-          );
+          const result = await getData(type);
 
           return {
             activityType: type,
-            chartData,
-            recommendation,
+            chartData: result.chartData,
+            recommendation: result.recommendation,
           };
         })
       );
@@ -311,12 +107,32 @@ const Activities = () => {
         <>
           <div className="w-full flex flex-col items-start md:max-w-[262px] gap-[15px]">
             {activityCardData.map((card, index) => (
+              //   <ActivityCard
+              //     check={weatherType}
+              //     key={index}
+              //     imgSrc={card.imgSrc}
+              //     text={card.text}
+              //     onClick={() => setWeatherType(card.text as typeof weatherType)}
+              //   />
+
               <ActivityCard
                 check={weatherType}
                 key={index}
                 imgSrc={card.imgSrc}
                 text={card.text}
-                onClick={() => setWeatherType(card.text as typeof weatherType)}
+                onClick={async () => {
+                  setRecommendation({
+                    title: "Loading...",
+                    description:
+                      "Please wait while we generate your recommendation.",
+                  });
+                  setWeatherType(card.text as ActivityType);
+
+                  const result = await getData(card.text as ActivityType);
+                  setChartData(result.chartData);
+                  setRecommendation(result.recommendation);
+                }}
+                onMouseEnter={() => prefetchData(card.text as ActivityType)}
               />
             ))}
           </div>

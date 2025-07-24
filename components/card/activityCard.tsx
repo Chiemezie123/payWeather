@@ -8,9 +8,10 @@ export interface ActivityCardProps {
   text: string;
   check: string;
   onClick: () => void;
+   onMouseEnter:()=> void
 }
 
-const ActivityCard = ({ imgSrc, text, onClick, check }: ActivityCardProps) => {
+const ActivityCard = ({ imgSrc, text, onClick, check , onMouseEnter}: ActivityCardProps) => {
   return (
     <div
       className={cn(

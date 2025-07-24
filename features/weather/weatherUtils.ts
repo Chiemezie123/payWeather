@@ -1,3 +1,8 @@
+import { WeatherCategory } from "@/components/card/weatherChart";
+import { ActivityType } from "@/constants/option";
+import { ChartDataItem, ProcessedChartData, WeatherType } from "@/features/weather/types/weather";
+
+
 interface SummaryResponse {
   choices?: Array<{
     message?: {
@@ -23,13 +28,8 @@ interface HourlyWeatherData {
   humidity: number;
 }
 
-interface HourlyWeatherData {
-  temp: number;
-  uvi: number;
-  pop: number;
-  wind_speed: number;
-  humidity: number;
-}
+
+
 
 export const getSuggestion = (temp: number, condition: string) => {
   const lowerCondition = condition.toLowerCase();
@@ -231,3 +231,6 @@ export const getToolTipClothing = (value: number) => {
     return "eg:Long sleeves, hoodie or light sweater";
   return "eg:Coat, thermal layers, gloves, hat";
 };
+
+
+
