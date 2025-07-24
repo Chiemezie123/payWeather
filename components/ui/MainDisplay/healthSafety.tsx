@@ -288,7 +288,7 @@ export const HealthSafety = () => {
           </div>
         </>
       )}
-      {isMobile ? (
+      {isMobile &&
         mobileCards.map((card, i) => (
           <MobileGraphCard
             key={i}
@@ -304,12 +304,7 @@ export const HealthSafety = () => {
             title={card.recommendation.title}
             description={card.recommendation.description}
           />
-        ))
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-lg">
-          <div className="w-12 h-12 border-4 border-grey-400 border-solid border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
+        ))}
     </div>
   );
 };
