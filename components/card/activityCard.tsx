@@ -2,7 +2,7 @@ import { cn } from "@/libs/utils";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
 
-// Solution 1: Use Next.js Image component (Recommended)
+
 export interface ActivityCardProps {
   imgSrc: StaticImageData;
   text: string;

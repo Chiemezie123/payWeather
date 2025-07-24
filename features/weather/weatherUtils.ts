@@ -165,3 +165,69 @@ export function calculateDressingIndex(hour: HourlyWeatherData): number {
 
   return Math.max(0, Math.min(5, parseFloat(score.toFixed(2))));
 }
+
+export const getScoreLabel = (score: number) => {
+  if (score >= 0 && score <= 20) return "Very Poor";
+  if (score >= 20 && score <= 40) return "Poor";
+  if (score >= 40 && score <= 60) return "Normal";
+  if (score >= 60 && score <= 80) return "Very Good";
+  return "Excellent";
+};
+
+export const getScoreActivity = (score: number) => {
+  if (score >= 0 && score <= 1) return "Poor";
+  if (score >= 1 && score <= 2) return "good";
+  if (score >= 2 && score <= 3) return "better";
+  if (score >= 3 && score <= 4) return "Excellent";
+  return "Excellent";
+};
+
+export const getScoreLabelForOutdoor = (score: number) => {
+  if (score >= 0 && score <= 20) return "Very Poor";
+  if (score >= 20 && score <= 40) return "Poor";
+  if (score >= 40 && score <= 60) return "Normal";
+  if (score >= 60 && score <= 80) return "Very Good";
+  return "Excellent";
+};
+
+export const getScoreUmbrella = (score: number) => {
+  if (score >= 0 && score <= 20) return "no rain";
+  if (score >= 20 && score <= 40) return "Light Rain";
+  if (score >= 40 && score <= 60) return "Moderate Rain";
+  if (score >= 60 && score <= 80) return "Heavy Rain";
+  return "Rainstorm";
+};
+
+export const getUvIndexCategory = (uvi: number): string => {
+  if (uvi >= 0 && uvi <= 3) return "Low UV";
+  if (uvi >= 3 && uvi <= 6) return "Mod UV";
+  if (uvi >= 6 && uvi <= 8) return "High UV";
+  if (uvi >= 8 && uvi <= 11) return "V High UV";
+  return "Extreme UV";
+};
+
+export const getScoreHeatStroke = (score: number) => {
+  if (score >= 0 && score <= 1) return "Safe";
+  if (score >= 2 && score <= 3) return "Mild";
+  if (score >= 3 && score <= 4) return "Caution";
+  if (score >= 4 && score <= 5) return "High";
+  return "Danger";
+};
+
+export const getScoreClothing = (score: number) => {
+  if (score >= 0 && score <= 1) return "Light Wear";
+  if (score >= 2 && score <= 3) return "Light Casual";
+  if (score >= 3 && score <= 4) return "Mild Layering";
+  if (score >= 4 && score <= 5) return "Jacket Weather";
+  return "Heavy Wear";
+};
+
+export const getToolTipClothing = (value: number) => {
+  if (value >= 0 && value <= 1)
+    return "eg:Sleeveless tops, shorts, very breathable fabrics";
+  if (value >= 2 && value <= 3) return "eg:T-shirt, light pants/skirts";
+  if (value >= 3 && value <= 4) return "eg:Shirt & jeans, light jacket";
+  if (value >= 4 && value <= 5)
+    return "eg:Long sleeves, hoodie or light sweater";
+  return "eg:Coat, thermal layers, gloves, hat";
+};

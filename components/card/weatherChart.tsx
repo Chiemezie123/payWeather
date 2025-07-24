@@ -1,4 +1,14 @@
 import {
+  getScoreActivity,
+  getScoreClothing,
+  getScoreHeatStroke,
+  getScoreLabel,
+  getScoreLabelForOutdoor,
+  getScoreUmbrella,
+  getToolTipClothing,
+  getUvIndexCategory,
+} from "@/features/weather/weatherUtils";
+import {
   ResponsiveContainer,
   BarChart,
   Bar,
@@ -16,12 +26,7 @@ export type WeatherCategory =
   | "uvindex"
   | "heatstroke";
 
-export type ActivityType =
-  | "hiking"
-  | "running"
-  | "picnic"
-  | "stargazing"
-  
+export type ActivityType = "hiking" | "running" | "picnic" | "stargazing";
 
 export type ChartDataPoint = {
   time: string;
@@ -33,77 +38,15 @@ export type ChartDataPoint = {
   uvi?: number;
 };
 
-const getScoreLabel = (score: number) => {
-  if (score >= 0 && score <= 20) return "Very Poor";
-  if (score >= 20 && score <= 40) return "Poor";
-  if (score >= 40 && score <= 60) return "Normal";
-  if (score >= 60 && score <= 80) return "Very Good";
-  return "Excellent";
-};
-
-const getScoreActivity = (score: number) => {
-  if (score >= 0 && score <= 1) return "Poor";
-  if (score >= 1 && score <= 2) return "good";
-  if (score >= 2 && score <= 3) return "better";
-  if (score >= 3 && score <= 4) return "Excellent";
-  return "Excellent";
-};
-
-const getScoreLabelForOutdoor = (score: number) => {
-  if (score >= 0 && score <= 20) return "Very Poor";
-  if (score >= 20 && score <= 40) return "Poor";
-  if (score >= 40 && score <= 60) return "Normal";
-  if (score >= 60 && score <= 80) return "Very Good";
-  return "Excellent";
-};
-
-const getScoreUmbrella = (score: number) => {
-  if (score >= 0 && score <= 20) return "no rain";
-  if (score >= 20 && score <= 40) return "Light Rain";
-  if (score >= 40 && score <= 60) return "Moderate Rain";
-  if (score >= 60 && score <= 80) return "Heavy Rain";
-  return "Rainstorm";
-};
-
-const getUvIndexCategory = (uvi: number): string => {
-  if (uvi >= 0 && uvi <= 3) return "Low UV";
-  if (uvi >= 3 && uvi <= 6) return "Mod UV";
-  if (uvi >= 6 && uvi <= 8) return "High UV";
-  if (uvi >= 8 && uvi <= 11) return "V High UV";
-  return "Extreme UV";
-};
-
-const getScoreHeatStroke = (score: number) => {
-  if (score >= 0 && score <= 1) return "Safe";
-  if (score >= 2 && score <= 3) return "Mild";
-  if (score >= 3 && score <= 4) return "Caution";
-  if (score >= 4 && score <= 5) return "High";
-  return "Danger";
-};
-
-const getScoreClothing = (score: number) => {
-  if (score >= 0 && score <= 1) return "Light Wear";
-  if (score >= 2 && score <= 3) return "Light Casual";
-  if (score >= 3 && score <= 4) return "Mild Layering";
-  if (score >= 4 && score <= 5) return "Jacket Weather";
-  return "Heavy Wear";
-};
-
-const getToolTipClothing = (value: number) => {
-  if (value >= 0 && value <= 1)
-    return "eg:Sleeveless tops, shorts, very breathable fabrics";
-  if (value >= 2 && value <= 3) return "eg:T-shirt, light pants/skirts";
-  if (value >= 3 && value <= 4) return "eg:Shirt & jeans, light jacket";
-  if (value >= 4 && value <= 5)
-    return "eg:Long sleeves, hoodie or light sweater";
-  return "eg:Coat, thermal layers, gloves, hat";
-};
-
 export type WeatherChartProps = {
   chartData: ChartDataPoint[];
   category?: WeatherCategory;
   activity?: ActivityType;
 };
+
+
+
+
 
 const WeatherChart = ({ chartData, category, activity }: WeatherChartProps) => {
   const isActivity = Boolean(activity);
@@ -129,7 +72,7 @@ const WeatherChart = ({ chartData, category, activity }: WeatherChartProps) => {
         ? getScoreUmbrella(value)
         : category === "outdoor"
         ? getScoreLabelForOutdoor(value)
-        : ["vehicle"].includes(category ?? "")
+        : category === "vehicle"
         ? getScoreLabel(value)
         : category === "uvindex"
         ? getUvIndexCategory(value)
@@ -199,23 +142,24 @@ const WeatherChart = ({ chartData, category, activity }: WeatherChartProps) => {
 
         <Tooltip content={<CustomTooltip />} />
 
-        {/* 🟣 Render activity or category bars */}
         {isActivity && <Bar dataKey="value" fill="#a78bfa" />}
 
-        {!isActivity && category === "outdoor" && (
-          <Bar dataKey="score" fill="#a78bfa" />
-        )}
+        {category === "outdoor" && <Bar dataKey="score" fill="#a78bfa" />}
 
         {category === "umbrella" && (
           <Bar dataKey="precipitation" fill="#60a5fa" />
         )}
+
         {category === "clothing" && (
           <>
             <Bar dataKey="score" fill="#60a5fa" />
           </>
         )}
+
         {category === "vehicle" && <Bar dataKey="score" fill="#a78bfa" />}
+
         {category === "uvindex" && <Bar dataKey="uvi" fill="#4ade80" />}
+
         {category === "heatstroke" && (
           <Bar dataKey="feels_like" fill="#4ade80" />
         )}
