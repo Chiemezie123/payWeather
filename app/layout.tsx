@@ -1,9 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import sun from "@/assets/images/Sun.png";
 
 export const metadata: Metadata = {
-  title: "weather App", // Your app title
-  description: "weather App for getting insights", // Your app description
+  title: "weather App",
+  description: "weather App for getting insights",
 };
 
 export default function RootLayout({
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Weather APP</title>
+        <link rel="icon" href={"/wImage.jpg"} />
       </head>
       <body className="font-satoshi">{children}</body>
     </html>
